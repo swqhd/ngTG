@@ -1,0 +1,58 @@
+<div class="game-tabs">
+  <mat-tab-group mat-align-tabs="start" backgroundColor="primary">
+    <mat-tab label="About">
+      <p *ngIf="game.parent_platforms?.length" class="game-tabs-par">
+        Platforms:
+        <span *ngFor="let platforms of game.parent_platforms; last as last">
+          {{ platforms.platform.name }} <span *ngIf="!last">, </span>
+        </span>
+      </p>
+      <p *ngIf="game.publishers?.length" class="game-tabs-par">
+        Publishers:
+        <span *ngFor="let publisher of game.publishers; last as last">
+          {{ publisher.name }} <span *ngIf="!last">, </span>
+        </span>
+      </p>
+      <p *ngIf="game.website" class="game-tabs-par">
+        Website:
+        <a class="game-tabs-link" target="_blank" href="{{ game.website }}">{{
+          game.website
+        }}</a>
+      </p>
+      <div class="game-description" [innerHTML]="game.description"></div>
+      <p class="game-tabs-votes">
+        <ng-container *ngFor="let rating of game.ratings">
+          <span *ngIf="rating.title === 'exceptional'">
+            <mat-icon class="game-votes-up">thumb_up</mat-icon>
+            <span class="game-votes-count">{{ rating.count || 0 }}</span>
+          </span>
+          <span *ngIf="rating.title === 'skip'">
+            <mat-icon class="game-votes-down">thumb_down</mat-icon>
+            <span class="game-votes-count">{{ rating.count || 0 }}</span>
+          </span>
+        </ng-container>
+      </p>
+    </mat-tab>
+    <mat-tab label="Screenshots" *ngIf="game.screenshots?.length">
+      <!-- <div *ngFor="let shot of game.screenshots;"> -->
+      <img
+        *ngFor="let shot of game.screenshots"
+        src="{{ shot.image }}"
+        alt="sh"
+        class="game-screenshot"
+      />
+
+      <!-- </div> -->
+    </mat-tab>
+    <mat-tab label="Trailers" *ngIf="game.trailers?.length">
+      <video
+        class="game-trailer"
+        controls
+        *ngFor="let trailer of game.trailers"
+      >
+        <source src="{{ trailer.data?.max }}" type="video/mp4" />
+        Your browser does not support video tag.
+      </video>
+    </mat-tab>
+  </mat-tab-group>
+</div>
